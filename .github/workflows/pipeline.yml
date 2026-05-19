@@ -1,0 +1,48 @@
+name: Pipeline CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'data-pipeline/**'
+      - '.github/workflows/pipeline.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'data-pipeline/**'
+
+jobs:
+  test-pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+          cache-dependency-path: data-pipeline/requirements.txt
+
+      - name: Install dependencies
+        run: pip install -r data-pipeline/requirements.txt
+
+      - name: Run unit tests
+        run: pytest data-pipeline/tests/ -v --tb=short
+
+      # Full pipeline run + schema validation (uncomment when pipeline is complete)
+      # - name: Run full pipeline
+      #   run: |
+      #     python data-pipeline/01_ingest.py
+      #     python data-pipeline/02_extract_gk_events.py
+      #     python data-pipeline/03_compute_metrics.py
+      #     python data-pipeline/04_generate_viz_data.py
+
+      # - name: Validate output schemas
+      #   run: pytest data-pipeline/tests/test_output_schema.py -v --tb=short
+
+      # - name: Copy output to frontend
+      #   run: |
+      #     mkdir -p frontend/public/data
+      #     cp -r data-pipeline/output/* frontend/public/data/

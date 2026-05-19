@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+*.egg-info/
+venv/
+.venv/
+
+# Pipeline intermediate data (raw StatsBomb clone is large)
+data-pipeline/raw/
+
+# Pipeline output is generated — don't track in git
+# (CI regenerates and copies to frontend/public/data/)
+data-pipeline/output/
+
+# Node
+node_modules/
+.next/
+out/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Environment
+.env
+.env.local
