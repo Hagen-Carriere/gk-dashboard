@@ -233,7 +233,7 @@ export interface SweepAction {
   match_label: string;
   minute: number;
   second: number;
-  period: int;
+  period: number;
   location: Coord2D;
   action_type: SweepActionType;
   outcome_success: boolean;
